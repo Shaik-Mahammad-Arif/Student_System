@@ -1,22 +1,31 @@
-import student_management
-from student_management import records
+# import studentmanage as sm
 import os
 import json
-file_name = 'Student_Records.json'
+BASH = os.path.dirname(os.path.abspath(__file__))
+file_name = os.path.join(BASH,"Student_Records.json")
 def load_data():
     if not os.path.exists(file_name):
         return []
+    
     try:
-        with open(file_name,"r") as f:
+        with open(file_name,"r",encoding="utf-8") as f:
             new_data = json.load(f)
-        new_data.extend(records)
+        return new_data
+    
     except json.JSONDecodeError:
-         return []
+         
+        new_data = []
+        return new_data
+    
     except FileNotFoundError:
         print("File is not available")
+        return []
+    
     except Exception as e:
         print(f"Exception is {e}")
-    return new_data
-def save_data(new_data):
-        with open(file_name,"w") as f:
-            json.dump(new_data,f)
+        return []
+    
+def save_data(new_file):
+        
+        with open(file_name,"w",encoding="utf-8") as f:
+            json.dump(new_file,f)
